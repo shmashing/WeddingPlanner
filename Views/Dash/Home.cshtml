@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Home Page";
     var user = ViewBag.user;
+    var usersRSVPs = ViewBag.userRSVPd;
 }
 <a href="/logout">Sign Out</a>
 <h3>Welcome to the Wedding Planner, @ViewBag.user.FirstName!</h3>
@@ -25,8 +26,8 @@
                             @if(wedding.WedderOneId == user.Id || wedding.WedderTwoId == user.Id){
                                 <td><a href="/delete/@wedding.Id"> Cancel Wedding</a></td>
                             } else {
-                                @if(wedding.Guests.Contains(user)){
-                                    <td><a href="">UN-RSVP</a></td>
+                                @if(usersRSVPs.Contains(wedding.Id)){
+                                    <td><a href="remguest/@wedding.Id/@user.Id">UN-RSVP</a></td>
                                 } else {
                                     <td><a href="addguest/@wedding.Id/@user.Id">RSVP</a></td>
                                 }

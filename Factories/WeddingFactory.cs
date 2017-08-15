@@ -92,5 +92,12 @@ namespace WeddingPlanner.Factory
                 dbConnection.Execute(query);
             }
         }
+        public void RemoveGuestFromWedding(int weddingId, int guestId){
+            using (IDbConnection dbConnection = Connection){
+                string query = $"DELETE FROM guestlists WHERE (WeddingId = {weddingId} && UserId = {guestId})";
+                dbConnection.Open();
+                dbConnection.Execute(query);
+            }
+        }
     }
 }

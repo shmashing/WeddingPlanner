@@ -70,5 +70,17 @@ namespace WeddingPlanner.Factory
                 return users;
             }
         }
+        public IEnumerable<int> GetRSVPsForId(int id){
+            using(IDbConnection dbConnection = Connection){
+                string query = $"SELECT WeddingId FROM guestlists WHERE (UserId = {id})";
+                dbConnection.Open();
+                List<int> ids = dbConnection.Query<int>(query).ToList();
+                foreach (int eyedee in ids){
+                    System.Console.WriteLine(eyedee);
+                }
+                return ids;
+
+            }
+        }
     }
 }

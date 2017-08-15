@@ -29,6 +29,7 @@ namespace WeddingPlanner.Controllers
             }
             ViewBag.user = user;
             ViewBag.weddings = weddingFactory.GetAllWeddings();
+            ViewBag.userRSVPd = userFactory.GetRSVPsForId(user.Id);
             return View("Home");
         }
         [HttpGet]
@@ -106,6 +107,12 @@ namespace WeddingPlanner.Controllers
             
             weddingFactory.AddGuestToWedding(wed_id, guest_id);
 
+            return RedirectToAction("Home");
+        }
+        [HttpGet]
+        [Route("remguest/{wed_id}/{guest_id}")]
+        public IActionResult RemoveGuest(int wed_id, int guest_id){
+            weddingFactory.RemoveGuestFromWedding(wed_id, guest_id);
             return RedirectToAction("Home");
         }
     }

@@ -1,9 +1,9 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<h3>Add a new wedding!</h3>
 <a href="dashboard">Dashboard</a>
 <a href="logout">Sign Out</a>
+<h3>Add a new wedding!</h3>
 
 @model WeddingPlanner.Models.AddWeddingViewModel
 
@@ -25,14 +25,17 @@
                     }
                 </select>
             </td>
+            <td><span asp-validation-for="WedderTwoId"></span></td>
         </tr>
         <tr>
             <td>Date: </td>
             <td><input asp-for="Date" type="text"></td>
+            <td><span asp-validation-for="Date"></span></td>
         </tr>
         <tr>
             <td>Address: </td>
             <td><input type="text" asp-for="Address"></td>
+            <td><span class="Address"></span></td>
         </tr>
     </table>
     <input type="submit" value="Add Wedding!">

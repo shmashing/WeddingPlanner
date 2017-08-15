@@ -7,13 +7,15 @@ namespace WeddingPlanner.Models {
 
         [Required]
         public int WedderOneId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage="Please enter your wedder")]
         public int WedderTwoId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Please enter a date")]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        [Required]
+
+        [Required(ErrorMessage="Please enter an address")]
         [MinLength(4)]
         public string Address { get; set; }
 

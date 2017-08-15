@@ -40,7 +40,10 @@ namespace WeddingPlanner.Controllers
             }
 
             user = userFactory.GetUserById(user.Id);
-            if(user.MyWeddingId == 0){
+            if(user.WeddingId != 0){
+                System.Console.WriteLine(user.Id);
+                System.Console.WriteLine(user.FirstName);
+                System.Console.WriteLine(user.WeddingId);
                 return RedirectToAction("AlreadyMarried");
             }
 
@@ -63,6 +66,9 @@ namespace WeddingPlanner.Controllers
                 weddingFactory.AddWedding(wedding);
                 return RedirectToAction("Home");
             }
+            User user = HttpContext.Session.GetObjectFromJson<User>("user"); 
+            ViewBag.user = user;
+            ViewBag.unwedUsers = userFactory.GetUnwedUsers(user.Id);
             return View("AddWedding");
         }
         [HttpGet]
@@ -73,6 +79,34 @@ namespace WeddingPlanner.Controllers
                 return RedirectToAction("/");
             }
             return View("alreadyMarried");
+        }
+
+        [HttpGet]
+        [Route("dashboard/{id}")]
+        public IActionResult ShowWedding(int id){
+            Wedding wedding = weddingFactory.GetWeddingById(id);
+
+            ViewBag.wedding = wedding;
+            return View("ShowWedding");
+        }
+        [HttpGet]
+        [Route("/delete/{id}")]
+        public IActionResult DeleteWedding(int id){
+            Wedding wedding = weddingFactory.GetWeddingById(id);
+            var user = HttpContext.Session.GetObjectFromJson<User>("user");
+            if(user.Id != wedding.WedderOneId && user.Id != wedding.WedderTwoId){
+                return RedirectToAction("Home");
+            }
+            weddingFactory.DeleteWedding(wedding);
+            return RedirectToAction("Home");
+        }
+        [HttpGet]
+        [Route("addguest/{wed_id}/{guest_id}")]
+        public IActionResult AddGuest(int wed_id, int guest_id){
+            
+            weddingFactory.AddGuestToWedding(wed_id, guest_id);
+
+            return RedirectToAction("Home");
         }
     }
 }

@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Home Page";
+    var wedding = ViewBag.wedding;
+}
+<a href="/dashboard">Dashboard</a>
+<a href="/logout">Sign Out</a>
+<h2>@wedding.WedderOne.FirstName's and @wedding.WedderTwo.FirstName's Wedding</h2>
+
+<h3>Date: @String.Format("{0:dddd, MMMM yyyy}", wedding.Date)</h3>
+
+<h3>Guests: </h3>
+<div class="guests">
+    @{
+        if(wedding.Guests.Count != 0){
+            foreach (var guest in wedding.Guests){
+                <h4>@guest.FirstName @guest.LastName</h4>
+            }
+        }
+    }
+</div>

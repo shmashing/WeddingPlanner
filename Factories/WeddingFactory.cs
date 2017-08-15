@@ -47,11 +47,49 @@ namespace WeddingPlanner.Factory
                 foreach (var wedding in weddings){
                     query = $"SELECT * FROM users WHERE users.WeddingId = {wedding.Id}";
                     var users = dbConnection.Query<User>(query).ToList();
-                    System.Console.WriteLine(users.Count());
                     wedding.WedderOne = users[0];
                     wedding.WedderTwo = users[1];
+
+                    query = "SELECT * FROM guestlists JOIN users ON guestlists.UserId = users.Id " +
+                            $"WHERE guestlists.WeddingId = {wedding.Id}";
+
+                    wedding.Guests = dbConnection.Query<User>(query).ToList();
                 }
                 return weddings;
+            }
+        }
+        public Wedding GetWeddingById(int id){
+            using (IDbConnection dbConnection = Connection){
+                string query = $"SELECT * FROM weddings WHERE (Id = {id})";
+                dbConnection.Open();
+                Wedding wedding = dbConnection.Query<Wedding>(query).SingleOrDefault();
+
+                query = $"SELECT * FROM users WHERE (WeddingId = {id})";
+                var users = dbConnection.Query<User>(query).ToList();
+                wedding.WedderOne = users[0];
+                wedding.WedderTwo = users[1];
+
+                query = "SELECT * FROM guestlists JOIN users ON guestlists.UserId = users.Id " +
+                       $"WHERE guestlists.WeddingId = {wedding.Id}";
+
+                wedding.Guests = dbConnection.Query<User>(query).ToList();
+                return wedding;
+            }
+        }
+        public void DeleteWedding(Wedding wedding){
+            using (IDbConnection dbConnection = Connection){
+                string query1 = $"UPDATE users SET WeddingId = NULL WHERE (Id = {wedding.WedderOneId} || Id = {wedding.WedderTwoId})";
+                string query2 = $"DELETE FROM weddings WHERE (Id = {wedding.Id})";
+                dbConnection.Open();
+                dbConnection.Execute(query1);
+                dbConnection.Execute(query2);
+            }
+        }
+        public void AddGuestToWedding(int weddingId, int guestId){
+            using (IDbConnection dbConnection = Connection){
+                string query = $"INSERT INTO guestlists (UserId, WeddingId) VALUES ({guestId},{weddingId})";
+                dbConnection.Open();
+                dbConnection.Execute(query);
             }
         }
     }

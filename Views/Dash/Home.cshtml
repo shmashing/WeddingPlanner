@@ -1,15 +1,17 @@
 @{
     ViewData["Title"] = "Home Page";
+    var user = ViewBag.user;
 }
+<a href="/logout">Sign Out</a>
 <h3>Welcome to the Wedding Planner, @ViewBag.user.FirstName!</h3>
-<a href="logout">Sign Out</a>
+
 
 <div class="weddings">
     <table class="wed_list">
         <thead>
             <th>Wedding</th>
             <th>Date</th>
-            <th>Guest</th>
+            <th>Guest Count</th>
             <th>Action</th>
         </thead>
         <tbody>
@@ -17,10 +19,18 @@
                 if(ViewBag.weddings != null){
                     foreach (var wedding in ViewBag.weddings){
                         <tr>
-                            <td>@wedding.WedderOne.FirstName and @wedding.WedderTwo.FirstName</td>
+                            <td><a href="dashboard/@wedding.Id">@wedding.WedderOne.FirstName and @wedding.WedderTwo.FirstName</a></td>
                             <td>@wedding.Date</td>
                             <td>@wedding.Guests.Count</td>
-                            <td>RSVP</td>
+                            @if(wedding.WedderOneId == user.Id || wedding.WedderTwoId == user.Id){
+                                <td><a href="/delete/@wedding.Id"> Cancel Wedding</a></td>
+                            } else {
+                                @if(wedding.Guests.Contains(user)){
+                                    <td><a href="">UN-RSVP</a></td>
+                                } else {
+                                    <td><a href="addguest/@wedding.Id/@user.Id">RSVP</a></td>
+                                }
+                            }
                         </tr>
                     }
                 }

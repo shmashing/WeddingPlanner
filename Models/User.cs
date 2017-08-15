@@ -13,7 +13,7 @@ namespace WeddingPlanner.Models {
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public int MyWeddingId { get; set; }
+        public int WeddingId { get; set; }
         public Wedding MyWedding { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

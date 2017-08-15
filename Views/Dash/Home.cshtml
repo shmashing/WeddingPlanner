@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h3>Welcome to the Wedding Planner, @ViewBag.user.FirstName!</h3>
+<a href="logout">Sign Out</a>
+
+<div class="weddings">
+    <table class="wed_list">
+        <thead>
+            <th>Wedding</th>
+            <th>Date</th>
+            <th>Guest</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            @{
+                if(ViewBag.weddings != null){
+                    foreach (var wedding in ViewBag.weddings){
+                        <tr>
+                            <td>@wedding.WedderOne.FirstName and @wedding.WedderTwo.FirstName</td>
+                            <td>@wedding.Date</td>
+                            <td>@wedding.Guests.Count</td>
+                            <td>RSVP</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    <a href="/add_wedding">Add a Wedding!</a>
+</div>

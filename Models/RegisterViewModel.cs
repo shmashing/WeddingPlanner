@@ -13,10 +13,6 @@ namespace WeddingPlanner.Models {
         [RegularExpression(@"[a-zA-Z]+$", ErrorMessage="Name can only contain letters")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Please enter a username")]
-        [MinLength(5, ErrorMessage = "Username must be {1} characters or longer")]
-        public string Username { get; set; }
-
         [Required(ErrorMessage = "Please enter an email")]
         [EmailAddress]
         public string Email { get; set; }

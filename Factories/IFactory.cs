@@ -3,5 +3,7 @@ using System.Collections.Generic;
 
 namespace WeddingPlanner.Factory {
 
-    public interface IFactory<T> where T: BaseEntity {}
+    public interface IFactory<T> where T: BaseEntity {
+        
+    }
 }

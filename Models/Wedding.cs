@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WeddingPlanner.Models {
     public class Wedding : BaseEntity {
         public Wedding(){
-            guests = new List<User>();
+            Guests = new List<User>();
         }
         [Key]
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace WeddingPlanner.Models {
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public ICollection<User> guests { get; set; }
+        public ICollection<User> Guests { get; set; }
 
     }
 }

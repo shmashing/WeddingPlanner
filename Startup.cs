@@ -25,6 +25,7 @@ namespace WeddingPlanner
             // Add framework services.
             services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
             services.AddScoped<UserFactory>();
+            services.AddScoped<WeddingFactory>();
             services.AddMvc();
             services.AddSession();
 

@@ -16,17 +16,13 @@
                 <td><span asp-validation-for="LastName"></span></td>
             </tr>
             <tr>
-                <td><input placeholder="Username" asp-for="Username"></td>
-                <td><span asp-validation-for="Username"></span></td>
-                @{
-                    if(ViewBag.UserNameError != null){
-                        <td><span> @ViewBag.UserNameError </span></td>
-                    }
-                }
-            </tr>
-            <tr>
                 <td><input placeholder="Email" asp-for="Email"></td>
                 <td><span asp-validation-for="Email"></span></td>
+                @{
+                    if(ViewBag.EmailError != null){
+                        <td><span> @ViewBag.EmailError </span></td>
+                    }
+                }
             </tr>
             <tr>
                 <td><input placeholder="Password" asp-for="Password"></td>

@@ -37,19 +37,18 @@ namespace WeddingPlanner.Controllers
         [Route("add_user")]
         public IActionResult RegisterUser(RegisterViewModel model){
             if(ModelState.IsValid){
-                if(userFactory.GetUserByUsername(model.Username) == null){
+                if(userFactory.GetUserByEmail(model.Email) == null){
                     User newuser = new User {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email,
-                        Username = model.Username,
                         Password = model.Password
                     };
                     PasswordHasher<User> Hasher = new PasswordHasher<User>();
                     newuser.Password = Hasher.HashPassword(newuser, newuser.Password);
                     userFactory.AddUser(newuser);
                 } else {
-                    ViewBag.UserNameError = "Username taken";
+                    ViewBag.EmailError = "Email taken";
                     return View("Register");
                 }
 
@@ -60,13 +59,21 @@ namespace WeddingPlanner.Controllers
         }
         [HttpPost]
         [Route("/login")]
-        public IActionResult Login(string username, string password){
-            if(userFactory.ValidateUser(username, password)){
-                return View("Submittal");
+        public IActionResult Login(string email, string password){
+            if(userFactory.ValidateUser(email, password)){
+                User user = userFactory.GetUserByEmail(email);
+                HttpContext.Session.SetObjectAsJson("user", user);
+                return RedirectToAction("Home", "Dash");
             } else {
-                TempData["loginError"] = "Invalid username/password";
+                TempData["loginError"] = "Invalid email/password";
                 return RedirectToAction("Index"); 
             }
+        }
+        [HttpGet]
+        [Route("/logout")]
+        public IActionResult Logout(){
+            HttpContext.Session.Clear();
+            return View("Logout");
         }
     }
 }

@@ -25,16 +25,16 @@ namespace WeddingPlanner.Factory
         }
         public void AddUser(User user){
             using (IDbConnection dbConnection = Connection){
-                string query = "INSERT INTO users (FirstName, LastName, Username, Email, Password)" +
-                                @"VALUES (@FirstName, @LastName, @Username, @Email, @Password)";
+                string query = "INSERT INTO users (FirstName, LastName, Email, Password)" +
+                                @"VALUES (@FirstName, @LastName, @Email, @Password)";
 
                 dbConnection.Open();
                 dbConnection.Execute(query, user);
             }
         }
-        public bool ValidateUser(string username, string password){
+        public bool ValidateUser(string email, string password){
             using(IDbConnection dbConnection = Connection){
-                string query = $"SELECT * FROM users WHERE (username = '{username}')";
+                string query = $"SELECT * FROM users WHERE (Email = '{email}')";
                 dbConnection.Open();
                 User user = dbConnection.Query<User>(query).SingleOrDefault();
                 if(user != null && password != null){
@@ -46,9 +46,9 @@ namespace WeddingPlanner.Factory
                 return false;
             }
         }
-        public User GetUserByUsername(string username){
+        public User GetUserByEmail(string email){
             using(IDbConnection dbConnection = Connection){
-                string query = $"SELECT * FROM users WHERE (Username = '{username}')";
+                string query = $"SELECT * FROM users WHERE (Email = '{email}')";
                 dbConnection.Open();
                 User user = dbConnection.Query<User>(query).SingleOrDefault();
                 return user;
@@ -60,6 +60,14 @@ namespace WeddingPlanner.Factory
                 dbConnection.Open();
                 User user = dbConnection.Query<User>(query).SingleOrDefault();
                 return user;
+            }
+        }
+        public IEnumerable<User> GetUnwedUsers(int id){
+            using (IDbConnection dbConnection = Connection){
+                string query = $"SELECT * FROM users WHERE (users.Id != {id} && users.WeddingId IS NULL)";
+                dbConnection.Open();
+                var users = dbConnection.Query<User>(query).ToList();
+                return users;
             }
         }
     }

@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h3>Add a new wedding!</h3>
+<a href="dashboard">Dashboard</a>
+<a href="logout">Sign Out</a>
+
+@model WeddingPlanner.Models.AddWeddingViewModel
+
+<form asp-action="MakeWedding" asp-controller="Dash">
+    <table>
+        <tr>
+            <td>Wedder One:</td>
+            <td>You</td>
+            <td><input type="hidden" asp-for="WedderOneId" value=@ViewBag.user.Id></td>
+        </tr>
+        <tr>
+            <td>Wedder Two: </td>
+            <td>
+                <select asp-for="WedderTwoId">
+                    @{
+                        foreach (var user in ViewBag.unwedUsers){
+                            <option value=@user.Id> @user.FirstName @user.LastName </option>
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Date: </td>
+            <td><input asp-for="Date" type="text"></td>
+        </tr>
+        <tr>
+            <td>Address: </td>
+            <td><input type="text" asp-for="Address"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Add Wedding!">
+</form>

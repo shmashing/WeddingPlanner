@@ -1,1 +1,7 @@
-/*Write all of your CSS here*/
+.weddings {
+    width: 100%;
+}
+.wed_list {
+    width: 80%;
+    text-align: center;
+}
